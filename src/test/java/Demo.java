@@ -8,14 +8,14 @@ public class Demo {
         try {
             final MqttAsyncClient mqttAsyncClient = MqttAsyncClient.createMqttClient("530bfb6775fce3cd4f363b36");
             mqttAsyncClient.setCallback(new MqttCallback() {
-                @Override
+
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     System.out.println("mqtt receive topic = " + topic + " msg = " + new String(message.getPayload()));//reciver msg from yunba server
                 }
-                @Override
+
                 public void deliveryComplete(IMqttDeliveryToken token) {
                 }
-                @Override
+
                 public void connectionLost(Throwable cause) {
                     System.out.println("mqtt connectionLost");
                 }
@@ -23,31 +23,31 @@ public class Demo {
             //API  connect to yunba server
             mqttAsyncClient.connect(new IMqttActionListener() {
 
-                @Override
+
                 public void onSuccess(IMqttToken arg0) {
                     System.out.println("mqtt connect success");
                     try {
                         mqttAsyncClient.subscribe("test_topic", 1, null, new IMqttActionListener() {
-                            @Override
+
                             public void onSuccess(IMqttToken asyncActionToken) {
                                 System.out.println("mqtt succeed subscribe: " + join(asyncActionToken.getTopics(), ","));
                                 try {
                                     mqttAsyncClient.publish("test_topic", "test_msg".getBytes(), 1, false, null, new IMqttActionListener() {
-                                                @Override
-                                                public void onFailure(IMqttToken arg0, Throwable arg1) {
-                                                    System.out.println("mqtt publish failed");
-                                                }
-                                                @Override
-                                                public void onSuccess(IMqttToken arg0) {
-                                                    System.out.println("mqtt publish success");
-                                                }
-                                            });
+
+                                        public void onFailure(IMqttToken arg0, Throwable arg1) {
+                                            System.out.println("mqtt publish failed");
+                                        }
+
+                                        public void onSuccess(IMqttToken arg0) {
+                                            System.out.println("mqtt publish success");
+                                        }
+                                    });
                                 } catch (MqttException e) {
                                     e.printStackTrace();
                                 }
                             }
 
-                            @Override
+
                             public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
                                 if (exception instanceof MqttException) {
                                     MqttException ex = (MqttException) exception;
@@ -60,15 +60,15 @@ public class Demo {
                     }
                     try {
                         mqttAsyncClient.setAlias("java_alias", new IMqttActionListener() {
-                            @Override
+
                             public void onSuccess(IMqttToken arg0) {
                                 try {
                                     mqttAsyncClient.getAlias(new IMqttActionListener() {
-                                        @Override
+
                                         public void onSuccess(IMqttToken token) {
                                             System.out.println("get alias = " + token.getAlias());
                                         }
-                                        @Override
+
                                         public void onFailure(IMqttToken arg0, Throwable arg1) {
                                             if (arg1 instanceof MqttException) {
                                                 MqttException mqtt = (MqttException) arg1;
@@ -78,11 +78,11 @@ public class Demo {
                                     });
                                     mqttAsyncClient.publishToAlias("java_alias", "msg to java_alaias", null);
                                     mqttAsyncClient.getTopics("java_alias", new IMqttActionListener() {
-                                        @Override
+
                                         public void onSuccess(IMqttToken token) {
                                             System.out.println("get getTopics = " + token.getResult());
                                         }
-                                        @Override
+
                                         public void onFailure(IMqttToken arg0, Throwable arg1) {
                                         }
                                     });
@@ -90,7 +90,7 @@ public class Demo {
                                     e.printStackTrace();
                                 }
                             }
-                            @Override
+
                             public void onFailure(IMqttToken arg0, Throwable arg1) {
                             }
                         });
@@ -99,7 +99,7 @@ public class Demo {
                     }
                 }
 
-                @Override
+
                 public void onFailure(IMqttToken arg0, Throwable arg1) {
                     System.out.println("mqtt connect failed" + arg1.getMessage());
                 }

@@ -6,9 +6,9 @@ package cn.smallyard;
 public class Index {
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("请输入参数topic");
+            System.out.println("请输入密码");
         } else {
-            JobListener.start(args[0]);
+            JobHandler.start(args[0]);
         }
     }
 }

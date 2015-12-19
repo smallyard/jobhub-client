@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- * 任务执行程序
+ * 浠诲姟鎵ц
  */
 public class JobExecutor implements Runnable {
 
@@ -25,8 +25,10 @@ public class JobExecutor implements Runnable {
                 sb.append(line).append("\n");
             }
             System.out.println(sb.toString());
+            JobHandler.publish(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
+            JobHandler.publish("鎵ц澶辫触");
         } finally {
             if (br != null) {
                 try {
